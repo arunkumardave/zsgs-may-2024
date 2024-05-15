@@ -11,8 +11,10 @@ public class LoginAction extends ActionSupport {
     {
     	boolean success = DatabaseManager.validateUser(username, password);
         if (success) {
+        	System.out.println("Login - Success");
             return SUCCESS;
         } else {
+        	System.out.println("Login - Invalid credentials");
             return ERROR;
         }
     }

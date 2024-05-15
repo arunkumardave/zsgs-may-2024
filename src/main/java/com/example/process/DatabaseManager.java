@@ -6,21 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DatabaseManager {
-    private static final String URL = "jdbc:mysql://localhost:3306/zs_db?autoReconnect=true&useSSL=false";
-    private static final String USERNAME = "";
-    private static final String PASSWORD = "";
+public class DatabaseManager 
+{
+    private static final String URL = "jdbc:mysql://localhost:3306/zs_db?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "MyNewPass";
 
     /*
      * CREATE DATABASE zs_db;
      * 
-     * CREATE TABLE UserDetails (
-	    Name VARCHAR(100),
-	    DOB DATE,
-	    Username VARCHAR(50) PRIMARY KEY,
-	    Password VARCHAR(50),
-	    Email VARCHAR(100) UNIQUE
-		);
+     * CREATE TABLE UserDetails ( Name VARCHAR(100), DOB DATE, Username VARCHAR(50) PRIMARY KEY, Password VARCHAR(50), Email VARCHAR(100) UNIQUE );
      */
     
     public static boolean validateUser(String username, String password) {
@@ -41,7 +36,9 @@ public class DatabaseManager {
     
     public static boolean addUser(String name, String dob, String username, String password, String email) {
     	
-    	if (userExists(username, email)) {
+    	if (userExists(username, email)) 
+    	{
+    		System.out.println("User exists with this email/username");
             return false; // User with the provided username or email already exists
         }
     	
@@ -79,7 +76,7 @@ public class DatabaseManager {
         return false; // Return false by default
     }
     
-    //sample test changes
+    //changes
 }
 
 

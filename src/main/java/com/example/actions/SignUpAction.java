@@ -14,8 +14,10 @@ public class SignUpAction extends ActionSupport {
     {
         boolean success = DatabaseManager.addUser(name, dob, username, password, email);
         if (success) {
+        	System.out.println("Signup - Success");
             return SUCCESS; // Redirect to success page or login page
         } else {
+        	System.out.println("Signup - Username/Email already exists");
             return ERROR; // Redirect to signup page with error message
         }
     }
