@@ -19,7 +19,18 @@
             <result name="success">website.jsp</result>
         </action>
         
-        <!-- Website - Tiles -->
+        <action name="articles" class="com.example.actions.ArticleAction">
+            <result name="success">article.jsp</result>
+        </action>
+        
+        <action name="postarticle" class="com.example.actions.PostArticleAction">
+            <result name="success">postarticle.jsp</result>
+        </action>
+        
+        <action name="notifications" class="com.example.actions.NotificationAction">
+            <result name="success">notifications.jsp</result>
+        </action>
+        
         
         
     </package>

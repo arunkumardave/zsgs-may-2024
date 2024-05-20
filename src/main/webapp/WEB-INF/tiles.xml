@@ -3,4 +3,15 @@
 <tiles-definitions>
     <definition name="articles" template="/articles.jsp"></definition>
     <!-- <definition name="articles" template="/WEB-INF/articles.jsp"></definition> -->
+    
+     <definition name="baseLayout" template="/WEB-INF/layouts/baseLayout.jsp">
+        <put-attribute name="postArticle" value="" />
+        <put-attribute name="readArticles" value="" />
+        <put-attribute name="notifications" value="" />
+    </definition>
+    <definition name="home" extends="baseLayout">
+        <put-attribute name="postArticle" value="/WEB-INF/jsp/postArticle.jsp" />
+        <put-attribute name="readArticles" value="/WEB-INF/jsp/readArticles.jsp" />
+        <put-attribute name="notifications" value="/WEB-INF/jsp/notifications.jsp" />
+    </definition>
 </tiles-definitions>

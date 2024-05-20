@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%-- <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
+<%@taglib uri="/struts-tags" prefix="s"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,14 +26,6 @@
             font-weight: bold;
         }
 
-        .container0 {
-            text-align: center;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -71,46 +62,55 @@
             background-color: #fff;
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
         }
+        .buttons {
+        	padding : 50px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .buttons button:hover {
+            background-color: #4caf50;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="logo">Medium Alike</div>
     </div>
-    <div class="container0">
+    <!-- <div class="container">
         <h1>Welcome!</h1>
         <p>You have successfully logged in.</p>
+    </div> -->
+    	<div class="buttons">
+            <button onclick="location.href='postarticle.jsp'">Post Article</button>
+            <button onclick="location.href='notifications'">View Notifications</button>
+            <!-- <a href="notifications.action?source=mysql">View Notifications (MySQL)</a>
+			<a href="notifications.action?source=redis">View Notifications (Redis)</a> -->
+        </div>
+        
+    <div class="container">
+    <s:iterator value="articles" var="article">
+    	<div class="article">
+            <h2><s:property value="#article.title" /></h2>
+            <p><strong>Author:</strong> <s:property value="#article.author" /></p>
+            <p><strong>Category:</strong> <s:property value="#article.category" /></p>
+            <p><s:property value="#article.content" /></p>
+        </div>
+    </s:iterator>
     </div>
     
-    <%-- <tiles:insertDefinition name="articles" /> --%>
-    
-    <div class="container">
-        <div class="article">
-            <h2>Sample Article 11</h2>
-            <p>Blah.,.,blah..blah..blah,...blahlll.</p>
-        </div>
-        <div class="article">
-            <h2>Sample Article 12</h2>
-            <p>Blah.,.,blah..blah..blah,...blahlll.</p>
-        </div>
-        <div class="article">
-            <h2>Sample Article 13</h2>
-            <p>Blah.,.,blah..blah..blah,...blahlll.</p>
-        </div>
-        <div class="article">
-            <h2>Another Article Title</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tempor velit non ligula tristique..</p>
-        </div>
-   </div>
-   
-   <div class="footer">
-        <div class="">Some footer</div>
+        
+    <div class="footer">
+        &copy; 2024 Medium Alike
     </div>
 </body>
 </html>
-
-            
-            
-            
-            
-             
