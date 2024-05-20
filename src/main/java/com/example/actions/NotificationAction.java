@@ -79,7 +79,6 @@ public class NotificationAction extends ActionSupport
                  ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     mostRecentAuthor = rs.getString("author");
-                    jedis.set("mostRecentAuthor", mostRecentAuthor);
                 }
             }
 
@@ -89,7 +88,6 @@ public class NotificationAction extends ActionSupport
                  ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     mostRecentArticle = rs.getString("title");
-                    jedis.set("mostRecentArticle", mostRecentArticle);
                 }
             }
 
@@ -99,7 +97,6 @@ public class NotificationAction extends ActionSupport
                  ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     mostLikedArticle = rs.getString("title");
-                    jedis.set("mostLikedArticle", mostLikedArticle);
                 }
             }
 
@@ -109,7 +106,6 @@ public class NotificationAction extends ActionSupport
                  ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     mostCommentedArticle = rs.getString("title");
-                    jedis.set("mostCommentedArticle", mostCommentedArticle);
                 }
             }
 
@@ -119,7 +115,6 @@ public class NotificationAction extends ActionSupport
                  ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     totalArticlesCount = rs.getInt(1);
-                    jedis.set("totalArticlesCount", totalArticlesCount+"");
                 }
             }
 
@@ -132,8 +127,14 @@ public class NotificationAction extends ActionSupport
                 }
             }
 
-            // Any other interesting stats can be fetched and stored in interestingStats
+            //Set in Redis as well
 
+            jedis.set("mostRecentAuthor", mostRecentAuthor);
+            jedis.set("mostRecentArticle", mostRecentArticle);
+            jedis.set("mostLikedArticle", mostLikedArticle);
+            jedis.set("mostCommentedArticle", mostCommentedArticle);
+            jedis.set("totalArticlesCount", totalArticlesCount+"");
+            
             return SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
