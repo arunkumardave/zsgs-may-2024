@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.object.Article;
 import com.example.process.DatabaseManager;
+import com.example.process.PrestoManager;
 import com.example.process.RedisManager;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -17,6 +18,8 @@ public class WebsiteAction extends ActionSupport {
 		System.out.println("Website - Success");
 		
 		articles = DatabaseManager.getArticles(500);
+		//articles = PrestoManager.getArticles(500);
+		
 		setArticles(articles);
 		
 		System.out.println("articles.size() : "+articles.size());

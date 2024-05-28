@@ -1,3 +1,4 @@
+//$Id$
 package com.example.process;
 
 import java.sql.Connection;
@@ -11,12 +12,13 @@ import java.util.List;
 
 import com.example.object.Article;
 
-public class DatabaseManager 
+public class PrestoManager 
 {
-    private static final String URL = "jdbc:mysql://localhost:3306/zs_db1?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true";
+    //private static final String URL = "jdbc:mysql://localhost:3306/zs_db1?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true";
+	private static final String URL = "jdbc:presto://localhost:3306/mysql/zs_db1?user=root&password=MyNewPass&SSL=true";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "MyNewPass";
-    
+
     /*
      * CREATE DATABASE zs_db;
      * 
@@ -28,12 +30,12 @@ public class DatabaseManager
     
     public static Connection getConnection() throws SQLException
     {
-    	return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    	return DriverManager.getConnection(URL);
     }
     
     public static boolean validateUser(String username, String password) {
         String sql = "SELECT * FROM UserDetails WHERE Username = ? AND Password = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.setString(2, password);
@@ -56,7 +58,7 @@ public class DatabaseManager
         }
     	
         String sql = "INSERT INTO UserDetails (Name, DOB, Username, Password, Email) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, name);
             stmt.setString(2, dob);
@@ -73,7 +75,7 @@ public class DatabaseManager
     
     private static boolean userExists(String username, String email) {
         String sql = "SELECT COUNT(*) FROM UserDetails WHERE Username = ? OR Email = ?";
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.setString(2, email);
@@ -97,7 +99,7 @@ public class DatabaseManager
         	query += " limit "+limit;
         }
         
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
            	ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
@@ -122,7 +124,7 @@ public class DatabaseManager
     public static boolean postArticle(String title, String author, String category, String content) 
     {	
      	String query = "INSERT INTO Articles (title, content, author, category) VALUES (?, ?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
         	try {
         		stmt.setString(1, title);
@@ -143,7 +145,7 @@ public class DatabaseManager
     public static boolean updateArticle(Long articleID, String title, String author, String category, String content) 
     {	
     	String query = "UPDATE Articles SET title=?, content=?, author=?, category=? WHERE articleid=?";
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
         	try {
         		stmt.setString(1, title);
@@ -165,7 +167,7 @@ public class DatabaseManager
     
     public static boolean removeArticle(Long articleId) {
         String query = "DELETE FROM Articles WHERE articleid=?";
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
                 PreparedStatement stmt = conn.prepareStatement(query)) {
            	try {
            		stmt.setLong(1, articleId);
@@ -188,7 +190,7 @@ public class DatabaseManager
         if(limit>0) {
         	query += " limit "+limit;
         }
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
            	ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
@@ -215,7 +217,7 @@ public class DatabaseManager
         
         String query = "SELECT * FROM Articles order by Likes desc limit 1 ";
         
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
            	ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
@@ -242,7 +244,7 @@ public class DatabaseManager
         
         String query = "SELECT * FROM Articles order by Comments desc limit 1 ";
         
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
            	ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
@@ -267,7 +269,7 @@ public class DatabaseManager
     public static int getArticlesCount() {
         int count = 0;
         String query = "SELECT count(*) FROM Articles";
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
            	ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
@@ -282,7 +284,7 @@ public class DatabaseManager
     public static int getArticlesCountByCategory() {
         int count = 0;
         String query = "SELECT Category, count(*) FROM Articles group by 1";
-        try (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
            	ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
